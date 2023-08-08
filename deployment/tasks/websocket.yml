@@ -1,0 +1,19 @@
+---
+- name: Docker pull websocket image
+  action: shell sudo docker pull aadav/microservice:{{ build_number }}
+  tags: websocket
+
+- name: Docker stop websocket
+  action: shell sudo docker stop websocket
+  tags: websocket
+  ignore_errors: True
+
+- name: Docker delete websocket
+  action: shell sudo docker rm websocket
+  tags: websocket
+  ignore_errors: True
+
+- name: Docker run websocket application
+  action: shell sudo docker run --name websocket -dit -p 80:8090 aadav/microservice:{{ build_number }}
+  tags: websocket
+

@@ -1,0 +1,2 @@
+[env]
+host ansible_connection=ssh

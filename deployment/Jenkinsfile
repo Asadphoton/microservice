@@ -1,0 +1,43 @@
+pipeline {
+	agent {
+		label 'linux_build'
+	}
+	options{
+		buildDiscarder(logRotator(numToKeepStr: '10'))
+	}
+	environment {
+		BUILDSERVER_WORKSPACE = "${WORKSPACE}"
+	}
+
+	stages {
+		stage('Initialization') {
+			steps {
+				script {
+					sh "echo Initialization"
+				}
+			}
+		}
+		stage("Deployment") {
+			steps {
+				script {
+					sh "echo deployment microservice"
+					sh "sh deployment/main.sh ${TAG}"
+				}
+			}
+		}
+	}
+	post {
+		success{
+			script {
+				sh "echo Build Success"
+			}
+		}
+		failure {
+				sh "echo Build Failed"
+		}
+		always{
+			cleanWs()
+		}
+	}
+}
+
