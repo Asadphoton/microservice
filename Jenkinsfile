@@ -37,6 +37,7 @@ pipeline {
 			steps {
 				script {
 					sh "echo Sonar Scanner"
+					
 				}
 			}
 		}
@@ -61,7 +62,7 @@ pipeline {
 				}
 			}
 		}
-		stage('Deploy to SIT') {
+		stage('Deploy to QA') {
 			when {
 				expression {
 					return env['GIT_BRANCH'].contains('main')
@@ -70,7 +71,9 @@ pipeline {
 			steps {
 				script {
 					sh "echo Deploy to SIT"
-					
+					sh "sudo docker stop websocket"
+					sh "sudo docker rm websocket"
+					sh "sudo docker run --name websocket -dit -p 8080:8090 mohammedasad/microservice:${BUILD_ID}"
 				}
 			}
 		}
