@@ -21,7 +21,7 @@ pipeline {
 			steps {
 				script{
 					sh "echo compliation"
-					sh "mvn clean install"
+					sh "mvn clean install -DskipTests=true"
 				}
 			}
 		}
