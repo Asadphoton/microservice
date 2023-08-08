@@ -1,6 +1,6 @@
 pipeline {
 	agent {
-		label 'linux_build'
+		label 'slave'
 	}
 	options{
 		buildDiscarder(logRotator(numToKeepStr: '10'))
@@ -28,8 +28,8 @@ pipeline {
 		stage("Compile Docker Image") {
 			steps {
 				script{
-					sh "echo compliation"
-					sh "sudo docker build -t aadav/microservice:${BUILD_ID} ."
+					sh "echo Create docker image"
+					sh "sudo docker build -t mohammedasad/microservice:${BUILD_ID} ."
 				}
 			}
 		}
@@ -56,8 +56,8 @@ pipeline {
 			steps {
 				script {
 					sh "echo publish"
-					sh "sudo docker login --username aadav --password Aadav321"
-					sh "sudo docker push aadav/microservice:${BUILD_ID}"
+					sh "sudo docker login --username mohammedasad --password 8143251094@5"
+					sh "sudo docker push mohammedasad/microservice:${BUILD_ID}"
 				}
 			}
 		}
@@ -70,8 +70,7 @@ pipeline {
 			steps {
 				script {
 					sh "echo Deploy to SIT"
-					sh "sh /home/ec2-user/configure_awscli.sh"
-					build job: "microservice_deploy", parameters: [string(name: 'TAG', value: "${BUILD_ID}")],wait: true
+					
 				}
 			}
 		}
