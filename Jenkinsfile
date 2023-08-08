@@ -64,7 +64,7 @@ pipeline {
 		stage('Deploy to SIT') {
 			when {
 				expression {
-					return env['GIT_BRANCH'].contains('master')
+					return env['GIT_BRANCH'].contains('main')
 				}
 			}
 			steps {
